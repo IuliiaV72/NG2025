@@ -1,12 +1,13 @@
-import telebot
-import telebot
 import os
-from telebot.apihelper import ApiTelegramException
+import telebot
+from flask import Flask, request
 
-# Ваш токен от BotFather
-TOKEN = os.getenv('TELEGRAM_TOKEN')
-# #
+# Токен бота из переменной окружения для безопасности
+TOKEN = os.getenv('TELEGRAM_TOKEN')  # Замените на ваш токен или используйте переменную окружения
 bot = telebot.TeleBot(TOKEN)
+
+# Flask-приложение для обработки Webhook
+app = Flask(__name__)
 
 # Вопросы и ответы
 questions = [
@@ -54,5 +55,16 @@ def check_answer(message, question_index):
         bot.send_message(message.chat.id, f"Увы, неверно. Правильный ответ: {question['answer']}.")
     ask_question(message.chat.id, question_index + 1)
 
-# Запуск бота
-bot.polling()
+# Webhook для обработки запросов Telegram
+@app.route(f"/{TOKEN}", methods=['POST'])
+def webhook():
+    json_data = request.get_data(as_text=True)
+    update = telebot.types.Update.de_json(json_data)
+    bot.process_new_updates([update])
+    return "OK", 200
+
+# Установка Webhook при запуске
+if __name__ == "__main__":
+    bot.remove_webhook()
+    bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")  # Замените your-app-name на имя вашего приложения на Render
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
