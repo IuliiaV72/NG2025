@@ -2,12 +2,12 @@ import telebot
 import telebot
 from telebot.apihelper import ApiTelegramException
 
-TOKEN = '7565067409:AAFWT1j7DtuTR-TMYuh8UsI8BwLycjkjihw'
+TOKEN = ''
 bot = telebot.TeleBot(TOKEN)
 
 
 # Ваш токен от BotFather
-TOKEN = '7565067409:AAFWT1j7DtuTR-TMYuh8UsI8BwLycjkjihw'
+TOKEN = ''
 bot = telebot.TeleBot(TOKEN)
 
 # Вопросы и ответы
