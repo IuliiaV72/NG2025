@@ -5,7 +5,7 @@ from telebot.apihelper import ApiTelegramException
 
 # Ваш токен от BotFather
 TOKEN = os.getenv('TELEGRAM_TOKEN')
-# TOKEN = '7565067409:AAFWT1j7DtuTR-TMYuh8UsI8BwLycjkjihw'
+# #
 bot = telebot.TeleBot(TOKEN)
 
 # Вопросы и ответы
