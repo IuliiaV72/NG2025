@@ -1,7 +1,7 @@
 import os
 import telebot
 from flask import Flask, request
-
+from telebot.apihelper import ApiTelegramException
 # Токен бота из переменной окружения для безопасности
 TOKEN = os.getenv('TELEGRAM_TOKEN')  # Замените на ваш токен или используйте переменную окружения
 bot = telebot.TeleBot(TOKEN)
@@ -68,3 +68,10 @@ if __name__ == "__main__":
     bot.remove_webhook()
     bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")  # Замените your-app-name на имя вашего приложения на Render
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    from telebot.apihelper import ApiTelegramException
+
+try:
+    bot.remove_webhook()
+    bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")
+except ApiTelegramException as e:
+    print(f"Ошибка установки Webhook: {e}")
