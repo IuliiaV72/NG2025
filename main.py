@@ -2,12 +2,16 @@ import os
 import telebot
 from flask import Flask, request
 from telebot.apihelper import ApiTelegramException
-# Токен бота из переменной окружения для безопасности
-TOKEN = os.getenv('TELEGRAM_TOKEN')  # Замените на ваш токен или используйте переменную окружения
+
+# Токен бота из переменной окружения
+TOKEN = os.getenv('TELEGRAM_TOKEN')  # Убедитесь, что TELEGRAM_TOKEN установлен в переменных окружения
+if not TOKEN:
+    raise ValueError("Переменная окружения TELEGRAM_TOKEN не установлена")
+
 bot = telebot.TeleBot(TOKEN)
 
 # Flask-приложение для обработки Webhook
-app = Flask(__name__)
+app = Flask(name)
 
 # Вопросы и ответы
 questions = [
@@ -31,7 +35,10 @@ questions = [
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.send_message(message.chat.id, "Пожелания-загадки приготовил дед Мороз! Отгадайте и узнайте, что в мешке он вам принес! Готовы?")
+    bot.send_message(
+        message.chat.id,
+        "Пожелания-загадки приготовил дед Мороз! Отгадайте и узнайте, что в мешке он вам принес! Готовы?"
+    )
     ask_question(message.chat.id, 0)
 
 # Задаём вопрос
@@ -64,14 +71,11 @@ def webhook():
     return "OK", 200
 
 # Установка Webhook при запуске
-if __name__ == "__main__":
-    bot.remove_webhook()
-    bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")  # Замените your-app-name на имя вашего приложения на Render
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-    from telebot.apihelper import ApiTelegramException
+if name == "main":
+    try:
+        bot.remove_webhook()
+        bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")  # Замените на ваш домен
+    except ApiTelegramException as e:
+        print(f"Ошибка установки Webhook: {e}")
 
-try:
-    bot.remove_webhook()
-    bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")
-except ApiTelegramException as e:
-    print(f"Ошибка установки Webhook: {e}")
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
