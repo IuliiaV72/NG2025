@@ -12,7 +12,7 @@ if not TOKEN:
 bot = telebot.TeleBot(TOKEN)
 
 # Flask-приложение для обработки Webhook
-app = Flask(name)
+app = Flask(__name__)
 
 # Вопросы и ответы
 questions = [
@@ -72,7 +72,7 @@ def webhook():
     return "OK", 200
 
 # Установка Webhook при запуске
-if name == "main":
+if __name__ == "__main__":
     try:
         bot.remove_webhook()
         bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")  # Замените на ваш домен
