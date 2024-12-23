@@ -13,6 +13,9 @@ bot = telebot.TeleBot(TOKEN)
 
 # Flask-приложение для обработки Webhook
 app = Flask(__name__)
+@app.route('/')
+def home():
+    return "Бот работает!", 200
 
 # Вопросы и ответы
 questions = [
