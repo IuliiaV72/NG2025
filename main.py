@@ -11,7 +11,7 @@ if not TOKEN:
 bot = telebot.TeleBot(TOKEN)
 
 # Flask-приложение для обработки Webhook
-app = Flask(name)
+app = Flask(__name__)
 
 # Вопросы и ответы
 questions = [
