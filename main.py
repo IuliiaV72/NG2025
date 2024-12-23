@@ -1,27 +1,23 @@
 import telebot
-import telebot
-import os
-from telebot.apihelper import ApiTelegramException
 
 # Ваш токен от BotFather
-TOKEN = os.getenv('TELEGRAM_TOKEN')
-# #
+TOKEN = "7565067409:AAE4oSFTqwBDud3l4JG0XtcjbibFlopEaRw"
 bot = telebot.TeleBot(TOKEN)
 
 # Вопросы и ответы
 questions = [
     {
-        "question": "Шуршат в кармане, в кошельке, считать все любят их в уме, а я желаю вам, ребята, их много-много в двадцать пятом!",
+        "question": "Шуршат в кармане, в кошельке, считать их любят все в уме, я пожелаю вам, ребята, их много-много в двадцать пятом.",
         "options": ["Вороны", "Семечки", "Деньги"],
         "answer": "Деньги"
     },
     {
-        "question": "Пусть говорят, что ЭТО любит одну лишь только тишину, я ГРОМКО МНОГО пожелаю его вам в будущем году.",
+        "question": "Пусть кто-то говорит, что любит оно лишь только тишину, я громко много пожелаю его вам в будущем году.",
         "options": ["Библиотека", "Счастье", "Новый пароль от WiFi"],
         "answer": "Счастье"
     },
     {
-        "question": "В аптеке ты его не купишь, и в банке ты не одолжишь... На лыжах, в парке и у моря его, конечно, сохранишь!",
+        "question": "В аптеке ты его не купишь, и в банке ты не одолжишь, на лыжах, в парке и у моря его, конечно, сохранишь!",
         "options": ["Спокойствие", "Нервы", "Здоровье"],
         "answer": "Здоровье"
     }
@@ -30,7 +26,7 @@ questions = [
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.send_message(message.chat.id, "Пожелания-загадки приготовил дед Мороз! Отгадайте и узнайте, что в мешке он вам принес! Готовы?")
+    bot.send_message(message.chat.id, "Привет! Давай поиграем в новогодние загадки! Готов?")
     ask_question(message.chat.id, 0)
 
 # Задаём вопрос
@@ -43,7 +39,7 @@ def ask_question(chat_id, question_index):
         bot.send_message(chat_id, question["question"], reply_markup=markup)
         bot.register_next_step_handler_by_chat_id(chat_id, lambda msg: check_answer(msg, question_index))
     else:
-        bot.send_message(chat_id, "Поздравляю, вы отгадали все загадки! С Новым годом!!!")
+        bot.send_message(chat_id, "Поздравляю, вы отгадали все загадки! С Новым годом!")
 
 # Проверяем ответ
 def check_answer(message, question_index):
