@@ -1,23 +1,33 @@
+import os
 import telebot
+from flask import Flask, request
+from telebot.apihelper import ApiTelegramException
 
-# Ваш токен от BotFather
-TOKEN = "7565067409:AAF-mHyv0CWgQ_UUQnhNZZ8NtfpMk5eo-x8"
+# Токен бота из переменной окружения
+##TOKEN = os.getenv('TELEGRAM_TOKEN')  # Убедитесь, что TELEGRAM_TOKEN установлен в переменных окружения
+TOKEN = '7565067409:AAF-mHyv0CWgQ_UUQnhNZZ8NtfpMk5eo-x8'
+if not TOKEN:
+    raise ValueError("Переменная окружения TELEGRAM_TOKEN не установлена")
+
 bot = telebot.TeleBot(TOKEN)
+
+# Flask-приложение для обработки Webhook
+app = Flask(name)
 
 # Вопросы и ответы
 questions = [
     {
-        "question": "Шуршат в кармане, в кошельке, считать их любят все в уме, я пожелаю вам, ребята, их много-много в двадцать пятом.",
+        "question": "Шуршат в кармане, в кошельке, считать все любят их в уме, а я желаю вам, ребята, их много-много в двадцать пятом!",
         "options": ["Вороны", "Семечки", "Деньги"],
         "answer": "Деньги"
     },
     {
-        "question": "Пусть кто-то говорит, что любит оно лишь только тишину, я громко много пожелаю его вам в будущем году.",
+        "question": "Пусть говорят, что ЭТО любит одну лишь только тишину, я ГРОМКО МНОГО пожелаю его вам в будущем году.",
         "options": ["Библиотека", "Счастье", "Новый пароль от WiFi"],
         "answer": "Счастье"
     },
     {
-        "question": "В аптеке ты его не купишь, и в банке ты не одолжишь, на лыжах, в парке и у моря его, конечно, сохранишь!",
+        "question": "В аптеке ты его не купишь, и в банке ты не одолжишь... На лыжах, в парке и у моря его, конечно, сохранишь!",
         "options": ["Спокойствие", "Нервы", "Здоровье"],
         "answer": "Здоровье"
     }
@@ -26,7 +36,10 @@ questions = [
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.send_message(message.chat.id, "Привет! Давай поиграем в новогодние загадки! Готов?")
+    bot.send_message(
+        message.chat.id,
+        "Пожелания-загадки приготовил дед Мороз! Отгадайте и узнайте, что в мешке он вам принес! Готовы?"
+    )
     ask_question(message.chat.id, 0)
 
 # Задаём вопрос
@@ -39,7 +52,7 @@ def ask_question(chat_id, question_index):
         bot.send_message(chat_id, question["question"], reply_markup=markup)
         bot.register_next_step_handler_by_chat_id(chat_id, lambda msg: check_answer(msg, question_index))
     else:
-        bot.send_message(chat_id, "Поздравляю, вы отгадали все загадки! С Новым годом!")
+        bot.send_message(chat_id, "Поздравляю, вы отгадали все загадки! С Новым годом!!!")
 
 # Проверяем ответ
 def check_answer(message, question_index):
@@ -50,5 +63,20 @@ def check_answer(message, question_index):
         bot.send_message(message.chat.id, f"Увы, неверно. Правильный ответ: {question['answer']}.")
     ask_question(message.chat.id, question_index + 1)
 
-# Запуск бота
-bot.polling()
+# Webhook для обработки запросов Telegram
+@app.route(f"/{TOKEN}", methods=['POST'])
+def webhook():
+    json_data = request.get_data(as_text=True)
+    update = telebot.types.Update.de_json(json_data)
+    bot.process_new_updates([update])
+    return "OK", 200
+
+# Установка Webhook при запуске
+if name == "main":
+    try:
+        bot.remove_webhook()
+        bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")  # Замените на ваш домен
+    except ApiTelegramException as e:
+        print(f"Ошибка установки Webhook: {e}")
+
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
