@@ -3,19 +3,16 @@ import telebot
 from flask import Flask, request
 from telebot.apihelper import ApiTelegramException
 
-# Токен бота из переменной окружения
-##TOKEN = os.getenv('TELEGRAM_TOKEN')  # Убедитесь, что TELEGRAM_TOKEN установлен в переменных окружения
-TOKEN = '7565067409:AAF-mHyv0CWgQ_UUQnhNZZ8NtfpMk5eo-x8'
+# Токен бота
+TOKEN = "7565067409:AAF-mHyv0CWgQ_UUQnhNZZ8NtfpMk5eo-x8"
+
 if not TOKEN:
-    raise ValueError("Переменная окружения TELEGRAM_TOKEN не установлена")
+    raise ValueError("Токен Telegram не установлен")
 
 bot = telebot.TeleBot(TOKEN)
 
 # Flask-приложение для обработки Webhook
 app = Flask(__name__)
-@app.route('/')
-def home():
-    return "Бот работает!", 200
 
 # Вопросы и ответы
 questions = [
@@ -78,7 +75,7 @@ def webhook():
 if __name__ == "__main__":
     try:
         bot.remove_webhook()
-        bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")  # Замените на ваш домен
+        bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")  # Ваш домен Render
     except ApiTelegramException as e:
         print(f"Ошибка установки Webhook: {e}")
 
