@@ -76,7 +76,7 @@ if __name__ == "__main__":
     try:
         bot.remove_webhook()
         bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")  # Ваш домен Render
-  ##  except ApiTelegramException as e:
-  ##      print(f"Ошибка установки Webhook: {e}")
+  except ApiTelegramException as e:
+     print(f"Ошибка установки Webhook: {e}")
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
