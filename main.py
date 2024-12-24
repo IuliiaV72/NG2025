@@ -83,6 +83,6 @@ if __name__ == "__main__":
         logger.info("Устанавливаем новый Webhook...")
         bot.set_webhook(url=f"https://ng2025-92xj.onrender.com/{TOKEN}")
         logger.info("Запуск Flask-приложения...")
-        app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+        app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
     except ApiTelegramException as e:
         logger.error(f"Ошибка установки Webhook: {e}")
