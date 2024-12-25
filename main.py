@@ -16,7 +16,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Токен бота
-TOKEN = '7565067409:AAF-mHyv0CWgQ_UUQnhNZZ8NtfpMk5eo-x8'
+TOKEN = '7565067409:AAHMpz1GdKTf5zuEVa7xOW1a2kmEkfIUNig'
 if not TOKEN:
     logger.error("Переменная окружения TELEGRAM_TOKEN не установлена")
     raise ValueError("Переменная окружения TELEGRAM_TOKEN не установлена")
