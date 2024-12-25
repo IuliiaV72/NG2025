@@ -49,7 +49,7 @@ def check_answer(message, question_index):
     if message.text == question["answer"]:
         bot.send_message(message.chat.id, "Правильно! 🎉")
     else:
-        bot.send_message(message.chat.id, f"Увы, неверно. Но дедушка Мороз очень добрый поэтому в Новом году Вас обязательно ждёт: {question['answer']}.!!!")
+        bot.send_message(message.chat.id, f"Увы, неверно. Но дедушка Мороз очень добрый, поэтому в Новом году Вас обязательно ждёт: {question['answer']}!!!")
     ask_question(message.chat.id, question_index + 1)
 
 # Запуск бота
