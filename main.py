@@ -41,7 +41,7 @@ def ask_question(chat_id, question_index):
         bot.send_message(chat_id, question["question"], reply_markup=markup)
         bot.register_next_step_handler_by_chat_id(chat_id, lambda msg: check_answer(msg, question_index))
     else:
-        bot.send_message(chat_id, "Поздравляю, вы отгадали все загадки! С Новым годом!!!")
+        bot.send_message(chat_id, "Поздравляю, вы отгадали все загадки! С Новым годом!!!☃️🍾🎄")
 
 # Проверяем ответ
 def check_answer(message, question_index):
@@ -49,7 +49,7 @@ def check_answer(message, question_index):
     if message.text == question["answer"]:
         bot.send_message(message.chat.id, "Правильно! 🎉")
     else:
-        bot.send_message(message.chat.id, f"Увы, неверно. Правильный ответ: {question['answer']}.")
+        bot.send_message(message.chat.id, f"Увы, неверно. Но дедушка Мороз очень добрый поэтому в Новом году Вас обязательно ждёт: {question['answer']}.!!!")
     ask_question(message.chat.id, question_index + 1)
 
 # Запуск бота
