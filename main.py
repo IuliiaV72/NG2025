@@ -24,7 +24,7 @@ questions = [
         "answer": "Здоровье"
     }
 ]
-bot.get_updates(offset=-1)
+
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
