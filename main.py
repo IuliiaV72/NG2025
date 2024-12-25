@@ -43,7 +43,7 @@ def send_welcome(message):
             message.chat.id,
             "Пожелания-загадки приготовил дед Мороз! Отгадайте и узнайте, что в мешке он вам принес! Готовы?"
         )
-        ask_question(message.chat.id, 0)  # Начало игры
+        ask_question(message.chat.id, 0)
     except Exception as e:
         logger.error(f"Ошибка в send_welcome: {e}")
         bot.send_message(message.chat.id, "Произошла ошибка. Попробуйте снова позже.")
